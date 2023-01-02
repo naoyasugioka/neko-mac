@@ -9,12 +9,12 @@
 	tickCount = 0;
 	stateCount = 0;
 	nekoState = theState;
-	[self flushWindow];
+	//[self flushWindow];
 }
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)styleMask backing:(NSBackingStoreType)bufferingType defer:(BOOL)deferCreation
 {
-	self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:bufferingType defer:deferCreation];
+	self = [super initWithContentRect:contentRect styleMask:NSWindowStyleMaskBorderless backing:bufferingType defer:deferCreation];
 	[self setBecomesKeyOnlyIfNeeded:YES];
 	[self setLevel:NSStatusWindowLevel];
 	[self setOpaque:NO];
@@ -24,7 +24,7 @@
 	[self setFrame:NSMakeRect(0.0f, 0.0f, 32.0f, 32.0f) display:0];
 	[self center];
 	[self setBackgroundColor:[NSColor clearColor]];
-	[self useOptimizedDrawing:YES];
+	//[self useOptimizedDrawing:YES];
 	NSBundle *bundle = [NSBundle mainBundle];
 	
 	stop = [NSArray arrayWithObjects:
@@ -110,11 +110,19 @@
 	float		Length;
 	
 	NSPoint p = [NSEvent mouseLocation];
+	/*
 	MouseX = p.x;
 	MouseY = p.y;
 	
 	DeltaX = floor(MouseX - x - 16.0f);
 	DeltaY = floor(MouseY - y);
+	*/
+	MouseX = p.x;
+	MouseY = p.y;
+	
+	DeltaX = floor(MouseX - x - 16.0f);
+	DeltaY = floor(MouseY - y);
+
 	
 	Length = hypotf(DeltaX, DeltaY);
 	
