@@ -110,13 +110,6 @@
 	float		Length;
 	
 	NSPoint p = [NSEvent mouseLocation];
-	/*
-	MouseX = p.x;
-	MouseY = p.y;
-	
-	DeltaX = floor(MouseX - x - 16.0f);
-	DeltaY = floor(MouseY - y);
-	*/
 	
 	NSRect screenRect = [[NSScreen mainScreen] frame];
 	NSInteger height = screenRect.size.height;
