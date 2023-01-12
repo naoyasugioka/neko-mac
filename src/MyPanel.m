@@ -117,8 +117,12 @@
 	DeltaX = floor(MouseX - x - 16.0f);
 	DeltaY = floor(MouseY - y);
 	*/
-	MouseX = p.x;
-	MouseY = p.y;
+	
+	NSRect screenRect = [[NSScreen mainScreen] frame];
+	NSInteger height = screenRect.size.height;
+	NSInteger width = screenRect.size.width;
+	MouseX = width - p.x;
+	MouseY = height - p.y;
 	
 	DeltaX = floor(MouseX - x - 16.0f);
 	DeltaY = floor(MouseY - y);
