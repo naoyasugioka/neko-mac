@@ -146,7 +146,7 @@ static NSPoint NekoClampOriginToScreens(NSPoint origin)
 	float targetX = NSMinX(sf) + fminf(lx, NSWidth(sf) - NEKO_WINDOW_SIZE);
 	float targetY = NSMinY(sf) + fminf(ly, NSHeight(sf) - NEKO_WINDOW_SIZE);
 
-	DeltaX = floor(targetX - x - 16.0f);
+	DeltaX = floor(targetX - x - (NEKO_WINDOW_SIZE / 2));
 	DeltaY = floor(targetY - y);
 
 	
