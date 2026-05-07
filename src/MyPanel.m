@@ -1,5 +1,24 @@
 #import "MyPanel.h"
 
+static const CGFloat NEKO_WINDOW_SIZE = 32.0f;
+
+static NSRect NekoScreensFrame(void)
+{
+	NSRect u = NSZeroRect;
+	for (NSScreen *screen in [NSScreen screens]) {
+		u = NSUnionRect(u, screen.frame);
+	}
+	return u;
+}
+
+static NSPoint NekoClampOriginToScreens(NSPoint origin)
+{
+	NSRect u = NekoScreensFrame();
+	CGFloat x = MAX(NSMinX(u), MIN(origin.x, NSMaxX(u) - NEKO_WINDOW_SIZE));
+	CGFloat y = MAX(NSMinY(u), MIN(origin.y, NSMaxY(u) - NEKO_WINDOW_SIZE));
+	return NSMakePoint(x, y);
+}
+
 @implementation MyPanel
 - (void)setStateTo:(id)theState
 {
@@ -105,20 +124,30 @@
 
 - (void)calcDxDyForX:(float)x Y:(float)y
 {
-	float		MouseX, MouseY;
 	float		DeltaX, DeltaY;
 	float		Length;
 	
 	NSPoint p = [NSEvent mouseLocation];
 	
-	NSRect screenRect = [[NSScreen mainScreen] frame];
-	NSInteger height = screenRect.size.height;
-	NSInteger width = screenRect.size.width;
-	MouseX = width - p.x;
-	MouseY = height - p.y;
+	NSScreen *cursorScreen = nil;
+	for (NSScreen *screen in [NSScreen screens])
+	{
+		if (NSPointInRect(p, screen.frame)) {
+			cursorScreen = screen;
+			break;
+		}
+	}
+	if (!cursorScreen)
+		cursorScreen = [NSScreen mainScreen];
+	NSRect sf = cursorScreen.frame;
 	
-	DeltaX = floor(MouseX - x - 16.0f);
-	DeltaY = floor(MouseY - y);
+	float lx = p.x - NSMinX(sf);
+	float ly = p.y - NSMinY(sf);
+	float targetX = NSMinX(sf) + fminf(lx, NSWidth(sf) - NEKO_WINDOW_SIZE);
+	float targetY = NSMinY(sf) + fminf(ly, NSHeight(sf) - NEKO_WINDOW_SIZE);
+
+	DeltaX = floor(targetX - x - 16.0f);
+	DeltaY = floor(targetY - y);
 
 	
 	Length = hypotf(DeltaX, DeltaY);
@@ -293,6 +322,6 @@
 
 	breakout:
 	[view displayIfNeeded];
-	[self setFrameOrigin:NSMakePoint(x, y)];
+	[self setFrameOrigin:NekoClampOriginToScreens(NSMakePoint(x, y))];
 }
 @end
