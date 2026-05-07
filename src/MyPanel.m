@@ -40,7 +40,7 @@ static NSPoint NekoClampOriginToScreens(NSPoint origin)
 	[self setCanHide:NO];
 	[self setIgnoresMouseEvents:YES];
 	[self setMovableByWindowBackground:NO];
-	[self setFrame:NSMakeRect(0.0f, 0.0f, 32.0f, 32.0f) display:0];
+	[self setFrame:NSMakeRect(0.0f, 0.0f, NEKO_WINDOW_SIZE, NEKO_WINDOW_SIZE) display:0];
 	[self center];
 	[self setBackgroundColor:[NSColor clearColor]];
 	//[self useOptimizedDrawing:YES];
